@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoUp Importados — Tienda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1a1a1a;
+  --sidebar:#111111;
+  --card:#f5f5f5;
+  --text:#ffffff;
+  --text-card:#111111;
+  --accent:#E8531A;
+  --badge:#009EE3;
+  --muted:#999999;
+  --sidebar-w:115px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;border:none;cursor:pointer}
+
+/* ============ SIDEBAR ============ */
+.sidebar{
+  position:fixed;
+  top:0;left:0;bottom:0;
+  width:var(--sidebar-w);
+  background:var(--sidebar);
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+  padding:28px 0 24px;
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none}
+
+.logo{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-0.03em;
+  line-height:1;
+  padding:0 18px;
+  margin-bottom:46px;
+}
+.logo .go{color:#d8d8d8}
+.logo .up{color:var(--accent)}
+
+.nav{display:flex;flex-direction:column;gap:2px;padding:0 18px}
+
+.nav-item{position:relative}
+
+.nav-link{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.01em;
+  padding:9px 0;
+  transition:color .18s ease;
+  cursor:pointer;
+}
+.nav-link:hover{color:var(--accent)}
+.nav-item.active > .nav-link{color:var(--accent)}
+
+.nav-link .arrow{
+  font-size:8px;
+  line-height:1;
+  opacity:.65;
+  transition:transform .22s ease;
+}
+.nav-item.open .nav-link .arrow{transform:rotate(90deg)}
+
+.submenu{
+  display:none;
+  flex-direction:column;
+  gap:1px;
+  padding:2px 0 6px 8px;
+  border-left:1px solid #2b2b2b;
+  margin-left:1px;
+}
+.nav-item.open .submenu{display:flex}
+
+.submenu a{
+  font-size:10.5px;
+  font-weight:400;
+  color:#9a9a9a;
+  padding:5px 0;
+  transition:color .18s ease;
+  cursor:pointer;
+}
+.submenu a:hover{color:#fff}
+
+.sidebar-foot{
+  margin-top:auto;
+  padding:24px 18px 0;
+  font-size:9px;
+  line-height:1.6;
+  color:#5a5a5a;
+  letter-spacing:.02em;
+}
+
+/* ============ MAIN ============ */
+.main{margin-left:var(--sidebar-w)}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  height:100vh;
+  min-height:560px;
+  background:#0d0d0d;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center 32%;
+}
+.hero-bg::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(10,10,10,.9) 0%,rgba(10,10,10,.72) 42%,rgba(10,10,10,.35) 100%);
+}
+
+.hero-inner{
+  position:relative;
+  z-index:2;
+  padding:0 70px;
+  max-width:820px;
+}
+.hero-eyebrow{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:22px;
+}
+.hero h1{
+  font-size:66px;
+  font-weight:800;
+  line-height:1.03;
+  letter-spacing:-0.035em;
+  margin-bottom:20px;
+}
+.hero p{
+  font-size:14px;
+  font-weight:400;
+  line-height:1.7;
+  color:#d4d4d4;
+  max-width:420px;
+  margin-bottom:34px;
+}
+.btn-hero{
+  display:inline-block;
+  background:var(--badge);
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  padding:12px 30px;
+  border-radius:2px;
+  transition:background .2s ease,transform .2s ease;
+  cursor:pointer;
+}
+.btn-hero:hover{background:#0089c7;transform:translateY(-1px)}
+
+.hero-product{
+  position:absolute;
+  left:0;bottom:0;
+  z-index:3;
+  background:rgba(8,8,8,.82);
+  backdrop-filter:blur(6px);
+  padding:20px 34px 20px 70px;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.hero-product .hp-name{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.02em;
+  margin-bottom:5px;
+}
+.hero-product .hp-meta{
+  font-size:11px;
+  color:#8f8f8f;
+}
+.hero-product .hp-meta b{color:var(--badge);font-weight:600}
+
+/* ============ CATEGORÍAS ============ */
+.cats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+}
+.cat{
+  position:relative;
+  height:400px;
+  overflow:hidden;
+  background:#101010;
+  display:block;
+  cursor:pointer;
+}
+.cat-img{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter:brightness(.62);
+  transition:transform .7s cubic-bezier(.2,.7,.3,1),filter .5s ease;
+}
+.cat:hover .cat-img{transform:scale(1.06);filter:brightness(.74)}
+.cat::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.1) 45%,rgba(0,0,0,.72) 100%);
+}
+.cat-label{
+  position:absolute;
+  top:30px;left:32px;
+  z-index:2;
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  color:#fff;
+}
+.cat-desc{
+  position:absolute;
+  bottom:30px;left:32px;right:32px;
+  z-index:2;
+  font-size:11.5px;
+  line-height:1.6;
+  color:#c9c9c9;
+}
+.cat-desc span{
+  display:block;
+  margin-top:9px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:var(--accent);
+}
+
+/* ============ MARCAS ============ */
+.brands{
+  background:#222222;
+  padding:52px 70px;
+}
+.brands h3{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:#6e6e6e;
+  text-align:center;
+  margin-bottom:30px;
+}
+.brands-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:14px 54px;
+}
+.brand{
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:.06em;
+  color:#b5b5b5;
+  transition:color .2s ease;
+  cursor:default;
+}
+.brand:hover{color:#fff}
+.brand-dot{color:#4a4a4a;font-size:14px}
+
+/* ============ PRODUCTOS ============ */
+.products{padding:86px 70px 96px}
+
+.products-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:30px;
+  margin-bottom:28px;
+  flex-wrap:wrap;
+}
+.products h2{
+  font-size:38px;
+  font-weight:800;
+  letter-spacing:-0.035em;
+  line-height:1.1;
+}
+.products-head p{
+  font-size:12px;
+  color:#8c8c8c;
+  line-height:1.6;
+  max-width:300px;
+}
+
+.filters{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:44px;
+}
+.pill{
+  background:transparent;
+  color:#b0b0b0;
+  border:1px solid #333;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.03em;
+  padding:9px 20px;
+  border-radius:999px;
+  transition:all .2s ease;
+}
+.pill:hover{border-color:#5c5c5c;color:#fff}
+.pill.active{
+  background:var(--badge);
+  border-color:var(--badge);
+  color:#fff;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:26px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:3px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 40px rgba(0,0,0,.45);
+}
+
+.card-media{
+  position:relative;
+  background:#ffffff;
+  padding:40px 34px;
+  height:330px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card-media img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  transition:transform .45s cubic-bezier(.2,.7,.3,1);
+}
+/* Fotos de ambiente: llenan la caja en lugar de flotar sobre blanco */
+.card-media.fill{padding:0}
+.card-media.fill img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.card:hover .card-media img{transform:scale(1.045)}
+
+.tag-off{
+  position:absolute;
+  top:14px;left:14px;
+  z-index:2;
+  background:var(--accent);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:.09em;
+  padding:5px 9px;
+  border-radius:2px;
+}
+
+.card-body{
+  padding:20px 22px 24px;
+  color:var(--text-card);
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  flex:1;
+}
+.card-name{
+  font-size:13px;
+  font-weight:600;
+  line-height:1.45;
+  letter-spacing:-0.005em;
+}
+.card-prices{
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  flex-wrap:wrap;
+}
+.price{
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:-0.02em;
+}
+.price-old{
+  font-size:12px;
+  font-weight:400;
+  color:var(--muted);
+  text-decoration:line-through;
+}
+.badge-cuotas{
+  align-self:flex-start;
+  background:var(--badge);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:.04em;
+  padding:4px 9px;
+  border-radius:2px;
+  margin-top:auto;
+}
+
+.empty{
+  grid-column:1/-1;
+  padding:50px 0;
+  text-align:center;
+  font-size:12px;
+  color:#7d7d7d;
+}
+
+/* ============ CONTACTO ============ */
+.contacto{padding:120px 70px 96px;max-width:1080px}
+.contacto h1{
+  font-size:52px;
+  font-weight:800;
+  letter-spacing:-0.035em;
+  line-height:1.05;
+  margin-bottom:16px;
+}
+.contacto .sub{
+  font-size:13px;
+  line-height:1.75;
+  color:#9a9a9a;
+  max-width:460px;
+  margin-bottom:54px;
+}
+.contacto-grid{
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+  gap:56px;
+  align-items:start;
+}
+.info-block{margin-bottom:30px}
+.info-block h4{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:9px;
+}
+.info-block p,.info-block a{
+  font-size:13px;
+  line-height:1.8;
+  color:#cfcfcf;
+}
+.info-block a:hover{color:#fff}
+
+.form{
+  background:#212121;
+  border:1px solid #2e2e2e;
+  border-radius:4px;
+  padding:34px;
+}
+.field{margin-bottom:18px}
+.field label{
+  display:block;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#8f8f8f;
+  margin-bottom:7px;
+}
+.field input,.field select,.field textarea{
+  width:100%;
+  background:#1a1a1a;
+  border:1px solid #333;
+  border-radius:3px;
+  color:#fff;
+  font-family:inherit;
+  font-size:13px;
+  padding:11px 13px;
+  transition:border-color .2s ease;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;
+  border-color:var(--badge);
+}
+.field textarea{resize:vertical;min-height:96px}
+.btn-form{
+  width:100%;
+  background:var(--accent);
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  padding:13px;
+  border-radius:3px;
+  transition:background .2s ease;
+}
+.btn-form:hover{background:#cf4514}
+.form-ok{
+  display:none;
+  margin-top:16px;
+  background:rgba(37,211,102,.12);
+  border:1px solid rgba(37,211,102,.35);
+  border-radius:3px;
+  padding:12px 14px;
+  font-size:12px;
+  line-height:1.6;
+  color:#6fe39b;
+}
+.form-ok.show{display:block}
+
+/* ============ FOOTER ============ */
+.footer{
+  border-top:1px solid #2a2a2a;
+  padding:46px 70px 54px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:40px;
+  flex-wrap:wrap;
+}
+.footer .logo{margin:0 0 12px;padding:0;font-size:26px}
+.footer-col p{font-size:11px;line-height:1.85;color:#7d7d7d}
+.footer-col h4{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#fff;
+  margin-bottom:12px;
+}
+.footer-col a{
+  display:block;
+  font-size:11px;
+  line-height:2;
+  color:#7d7d7d;
+  transition:color .18s ease;
+  cursor:pointer;
+}
+.footer-col a:hover{color:var(--accent)}
+
+/* ============ FLOTANTES ============ */
+.demo-badge{
+  position:fixed;
+  top:18px;right:18px;
+  z-index:200;
+  background:var(--accent);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:.16em;
+  padding:7px 13px;
+  border-radius:2px;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);
+}
+
+.whatsapp{
+  position:fixed;
+  right:22px;bottom:22px;
+  z-index:200;
+  width:54px;height:54px;
+  border-radius:50%;
+  background:#25D366;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+  transition:transform .22s ease;
+}
+.whatsapp:hover{transform:scale(1.07)}
+.whatsapp svg{width:29px;height:29px;fill:#fff}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1100px){
+  .grid,.cats{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:50px}
+  .hero-inner,.products,.brands,.footer,.contacto{padding-left:44px;padding-right:44px}
+  .hero-product{padding-left:44px}
+  .contacto-grid{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:720px){
+  :root{--sidebar-w:78px}
+  .logo{font-size:21px;padding:0 12px}
+  .nav{padding:0 12px}
+  .nav-link{font-size:10.5px}
+  .grid,.cats{grid-template-columns:1fr}
+  .hero{height:auto;min-height:0;padding:110px 0 0}
+  .hero h1{font-size:34px}
+  .hero-inner,.products,.brands,.footer,.contacto{padding-left:22px;padding-right:22px}
+  .hero-inner{padding-bottom:150px}
+  .hero-product{padding:16px 22px;right:0}
+  .products h2{font-size:27px}
+  .contacto h1{font-size:34px}
+  .cat{height:290px}
+  .card-media{height:250px;padding:26px}
+  .products{padding-top:54px;padding-bottom:62px}
+  .contacto{padding-top:80px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-badge">DEMO · Balance</div>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="logo" onclick="irA('stanley')" style="cursor:pointer"><span class="go">go</span><span class="up">up</span></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="sidebar-foot">
+    Envíos a<br>todo el país
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main class="main" id="main"></main>
+
+<!-- WHATSAPP -->
+<a class="whatsapp" href="#" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 016.988 2.898 9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+/* ==========================================================
+   CATÁLOGO — una sola fuente de datos para todas las vistas
+   ========================================================== */
+var IMG = './images/';
+
+var CATALOGO = {
+
+  stanley: {
+    nav:'Stanley',
+    submenu:['Quencher','Termos','Accesorios','Ediciones Especiales'],
+    hero:{
+      img:'CE6F1149-B4EB-4DDB-92A9-0CA83534F1FA.png',
+      eyebrow:'Nueva temporada',
+      titulo:'Stanley Quencher Collection',
+      texto:'Termos, vasos y mate systems originales. Importación directa, garantía oficial y envíos a todo el país.',
+      destacado:{nombre:'Stanley Mate System 1.2L Negro', precio:'$124.900', cuotas:'12 cuotas sin interés'}
+    },
+    seccion:{titulo:'Stanley Collection', bajada:'Productos originales con garantía. Hasta 12 cuotas sin interés con todas las tarjetas.'},
+    cats:[
+      {label:'Stanley Vasos', desc:'Quencher e IceFlow en todos los colores de temporada.', img:'DE09E6BE-3838-45F9-907E-D3DAF6E94651.png'},
+      {label:'Stanley Termos', desc:'Classic y Adventure. Hasta 30 horas de temperatura.', img:'3AD16DFE-26DA-4D0E-A665-6338559FC888.png'},
+      {label:'Stanley Accesorios', desc:'Bombillas, fundas, tapas flip y repuestos originales.', img:'EBEA3688-83EC-468A-BF16-0B5C63C5F9C7.png'}
+    ],
+    productos:[
+      {nombre:'Stanley Quencher 1.18L Rosa', precio:112000, antes:139000, cuotas:'12x', img:'IMG_4083.jpg', filtros:['Quencher','Ediciones Especiales']},
+      {nombre:'Stanley Quencher 1.18L Negro', precio:112000, cuotas:'12x', img:'E4FACFC6-A9F8-4857-825F-897C5FDB9ECE.png', filtros:['Quencher']},
+      {nombre:'Stanley Adventure 0.75L', precio:87300, antes:97000, cuotas:'3x', img:'IMG_4084.jpg', filtros:['Termos']},
+      {nombre:'Stanley Classic Termo 1L', precio:94500, cuotas:'12x', img:'C3AA8658-E384-4E24-B089-C54B0F289BD5.png', filtros:['Termos']},
+      {nombre:'Stanley IceFlow Flip', precio:76800, cuotas:'3x', img:'IMG_4092.jpg', filtros:['Accesorios','Quencher']},
+      {nombre:'Stanley Quencher 0.94L Blanco', precio:98000, antes:118000, cuotas:'12x', img:'1731AA86-483A-47B6-9122-BDD9E99D3641.png', filtros:['Quencher','Ediciones Especiales']}
+    ]
+  },
+
+  drones: {
+    nav:'Drones',
+    submenu:['Cámara 4K','Plegables','Profesionales','Accesorios'],
+    hero:{
+      img:'drone-vuelo.jpg',
+      pos:'center 45%',
+      eyebrow:'Línea DJI',
+      titulo:'Drones DJI · Volá en 4K',
+      texto:'Mini 4 Pro, Air 3S y toda la línea DJI con caja cerrada, garantía y configuración inicial sin cargo.',
+      destacado:{nombre:'DJI Mini 4 Pro Fly More Combo', precio:'$1.489.000', cuotas:'12 cuotas sin interés'}
+    },
+    seccion:{titulo:'Drones DJI', bajada:'Equipos nuevos, sellados y con garantía. Te los entregamos calibrados y listos para volar.'},
+    cats:[
+      {label:'Cámara 4K', desc:'Sensores de 1" y video 4K/60 para tomas de nivel profesional.', img:'drone-air3s-camara.jpg'},
+      {label:'Plegables', desc:'Menos de 249 g: volás sin registro en la mayoría de los casos.', img:'drone-mini4pro.jpg'},
+      {label:'Profesionales', desc:'Doble lente, seguimiento activo y 45 min de autonomía.', img:'drone-air3s.jpg'}
+    ],
+    productos:[
+      {nombre:'DJI Mini 4 Pro (249 g)', precio:1289000, antes:1450000, cuotas:'12x', img:'drone-mini4pro.jpg', filtros:['Plegables','Cámara 4K']},
+      {nombre:'DJI Air 3S Fly More Combo', precio:1890000, cuotas:'12x', img:'drone-air3s.jpg', filtros:['Profesionales','Cámara 4K']},
+      {nombre:'DJI Air 3S — Doble cámara Hasselblad', precio:1745000, antes:1920000, cuotas:'12x', img:'drone-air3s-camara.jpg', filtros:['Profesionales','Cámara 4K']},
+      {nombre:'DJI Mini 4 Pro — Gimbal 3 ejes', precio:1189000, cuotas:'6x', img:'drone-mini4pro-gimbal.jpg', filtros:['Plegables','Accesorios']}
+    ]
+  },
+
+  monopatines: {
+    nav:'Monopatines',
+    submenu:['Urbanos','Larga autonomía','Repuestos'],
+    hero:{
+      img:'scooter-m365-muro.jpg',
+      pos:'center 55%',
+      eyebrow:'Movilidad eléctrica',
+      titulo:'Monopatines eléctricos',
+      texto:'Xiaomi y Mi Electric Scooter. Hasta 45 km de autonomía, plegado en 3 segundos y service propio en Buenos Aires.',
+      destacado:{nombre:'Xiaomi Mi Electric Scooter 3 Lite', precio:'$489.000', cuotas:'12 cuotas sin interés'}
+    },
+    seccion:{titulo:'Monopatines eléctricos', bajada:'Entrega armada y cargada. Incluye 6 meses de garantía y service propio.'},
+    cats:[
+      {label:'Urbanos', desc:'Livianos y plegables, pensados para el día a día en la ciudad.', img:'scooter-m365-parque.jpg'},
+      {label:'Larga autonomía', desc:'Hasta 45 km reales por carga y doble sistema de frenos.', img:'scooter-m365-pro2.jpg'},
+      {label:'Repuestos', desc:'Cubiertas, cámaras, frenos y baterías originales Xiaomi.', img:'scooter-m365-blanco.jpg'}
+    ],
+    productos:[
+      {nombre:'Xiaomi Mi Scooter M365 Negro', precio:529000, antes:610000, cuotas:'12x', fill:true, img:'scooter-m365-muro.jpg', filtros:['Urbanos']},
+      {nombre:'Xiaomi Mi Electric Scooter 3', precio:612000, cuotas:'12x', fill:true, img:'scooter-mi3-cesped.jpg', filtros:['Urbanos','Larga autonomía']},
+      {nombre:'Xiaomi M365 Pro 2 — 45 km', precio:748000, antes:829000, cuotas:'12x', fill:true, img:'scooter-m365-pro2.jpg', filtros:['Larga autonomía']},
+      {nombre:'Xiaomi M365 Blanco', precio:545000, cuotas:'6x', fill:true, img:'scooter-m365-blanco.jpg', filtros:['Urbanos']},
+      {nombre:'Xiaomi M365 — Usado certificado', precio:379000, antes:450000, cuotas:'3x', fill:true, img:'scooter-m365-parque.jpg', filtros:['Urbanos','Repuestos']}
+    ]
+  },
+
+  perfumes: {
+    nav:'Perfumes',
+    submenu:['Hombre','Mujer','Nicho'],
+    hero:{
+      img:'perfume-diptyque.jpg',
+      pos:'center 40%',
+      eyebrow:'100% originales',
+      titulo:'Perfumería importada',
+      texto:'Fragancias originales con código de barras verificable. Traemos a pedido cualquier casa que no tengamos en stock.',
+      destacado:{nombre:'Diptyque L\'Ombre dans l\'Eau EDP 75ml', precio:'$268.000', cuotas:'6 cuotas sin interés'}
+    },
+    seccion:{titulo:'Perfumes importados', bajada:'Todos originales, sellados y con código verificable. Consultanos por decants.'},
+    cats:[
+      {label:'Hombre', desc:'Dior, Paco Rabanne, Hugo Boss y Calvin Klein.', img:'perfume-dior-eau-sauvage.jpg'},
+      {label:'Mujer', desc:'Chanel, Prada y Carolina Herrera en presentaciones originales.', img:'perfume-prada-iris.jpg'},
+      {label:'Nicho', desc:'Diptyque, Le Labo y casas de autor traídas a pedido.', img:'perfume-diptyque.jpg'}
+    ],
+    productos:[
+      {nombre:'Chanel N°5 Eau de Parfum 100ml', precio:398000, antes:455000, cuotas:'12x', img:'perfume-chanel-no5.jpg', filtros:['Mujer']},
+      {nombre:'Paco Rabanne 1 Million EDT 200ml', precio:245000, cuotas:'12x', img:'perfume-paco-1million.jpg', filtros:['Hombre']},
+      {nombre:'Calvin Klein CK One EDT 200ml', precio:132000, antes:158000, cuotas:'6x', img:'perfume-ck-one.jpg', filtros:['Hombre','Mujer']},
+      {nombre:'Hugo Boss Bottled EDT 100ml', precio:189000, cuotas:'6x', img:'perfume-boss-bottled.jpg', filtros:['Hombre']},
+      {nombre:'Dior Eau Sauvage EDT 100ml', precio:274000, antes:310000, cuotas:'12x', fill:true, img:'perfume-dior-eau-sauvage.jpg', filtros:['Hombre','Nicho']},
+      {nombre:'Prada Infusion d\'Iris Cèdre 100ml', precio:312000, cuotas:'12x', fill:true, img:'perfume-prada-iris.jpg', filtros:['Mujer','Nicho']}
+    ]
+  },
+
+  electro: {
+    nav:'Electro',
+    submenu:['Audio','Wearables','Hogar'],
+    hero:{
+      img:'electro-jbl-charge4.jpg',
+      pos:'center 50%',
+      eyebrow:'Audio y tecnología',
+      titulo:'Electro & Audio',
+      texto:'Parlantes JBL, smartwatches y electro para el hogar. Todo con garantía escrita y cambio sin vueltas los primeros 30 días.',
+      destacado:{nombre:'JBL Charge 4 Bluetooth', precio:'$189.000', cuotas:'6 cuotas sin interés'}
+    },
+    seccion:{titulo:'Electro & Audio', bajada:'Marcas originales con garantía escrita. Retiro en el día o envío en 48 hs.'},
+    cats:[
+      {label:'Audio', desc:'Parlantes JBL portátiles, resistentes al agua y con 20 hs de batería.', img:'electro-jbl-flip3.jpg'},
+      {label:'Wearables', desc:'Smartwatches y smartbands con notificaciones y ritmo cardíaco.', img:'electro-galaxy-watch.jpg'},
+      {label:'Hogar', desc:'Air fryers, cafeteras y chicos electro para la cocina.', img:'electro-airfryer.jpg'}
+    ],
+    productos:[
+      {nombre:'JBL Charge 4 — 20 hs de batería', precio:189000, antes:225000, cuotas:'6x', fill:true, img:'electro-jbl-charge4.jpg', filtros:['Audio']},
+      {nombre:'JBL Flip 3 Bluetooth IPX7', precio:124000, cuotas:'6x', fill:true, img:'electro-jbl-flip3.jpg', filtros:['Audio']},
+      {nombre:'Samsung Galaxy Watch 46mm', precio:428000, antes:495000, cuotas:'12x', fill:true, img:'electro-galaxy-watch.jpg', filtros:['Wearables']},
+      {nombre:'Xiaomi Mi Band 4', precio:58000, cuotas:'3x', fill:true, img:'electro-mi-band4.jpg', filtros:['Wearables']},
+      {nombre:'Air Fryer 5.5L Digital', precio:215000, antes:259000, cuotas:'12x', fill:true, img:'electro-airfryer.jpg', filtros:['Hogar']}
+    ]
+  }
+};
+
+var ORDEN = ['stanley','drones','monopatines','perfumes','electro'];
+
+/* ==========================================================
+   UTILIDADES
+   ========================================================== */
+function precioARS(n){
+  return '$' + n.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function descuento(p){
+  if(!p.antes) return '';
+  return Math.round((1 - p.precio / p.antes) * 100) + '% OFF';
+}
+
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ==========================================================
+   SIDEBAR
+   ========================================================== */
+function renderNav(activa){
+  var html = '<div class="nav-item' + (activa === 'inicio' ? ' active' : '') + '">' +
+             '<a class="nav-link" onclick="irA(\'inicio\')">Inicio</a></div>';
+
+  ORDEN.forEach(function(key){
+    var c = CATALOGO[key];
+    var abierta = (activa === key);
+    html += '<div class="nav-item' + (abierta ? ' active open' : '') + '">' +
+              '<div class="nav-link" onclick="irA(\'' + key + '\')">' +
+                '<span>' + c.nav + '</span><span class="arrow">&#9654;</span>' +
+              '</div>' +
+              '<div class="submenu">' +
+                c.submenu.map(function(f){
+                  return '<a onclick="event.stopPropagation(); irA(\'' + key + '\',\'' + esc(f) + '\')">' + f + '</a>';
+                }).join('') +
+              '</div>' +
+            '</div>';
+  });
+
+  html += '<div class="nav-item' + (activa === 'contacto' ? ' active' : '') + '">' +
+          '<a class="nav-link" onclick="irA(\'contacto\')">Contacto</a></div>';
+
+  document.getElementById('nav').innerHTML = html;
+}
+
+/* ==========================================================
+   BLOQUES DE PÁGINA
+   ========================================================== */
+function bloqueHero(c, key){
+  var h = c.hero;
+  return '<section class="hero">' +
+    '<div class="hero-bg" style="background-image:url(\'' + IMG + h.img + '\');background-position:' + (h.pos || 'center 32%') + '"></div>' +
+    '<div class="hero-inner">' +
+      '<div class="hero-eyebrow">' + h.eyebrow + '</div>' +
+      '<h1>' + h.titulo + '</h1>' +
+      '<p>' + h.texto + '</p>' +
+      '<a class="btn-hero" onclick="scrollAProductos()">COMPRAR</a>' +
+    '</div>' +
+    '<div class="hero-product">' +
+      '<div class="hp-name">' + h.destacado.nombre + '</div>' +
+      '<div class="hp-meta">' + h.destacado.precio + ' &nbsp;·&nbsp; <b>' + h.destacado.cuotas + '</b></div>' +
+    '</div>' +
+  '</section>';
+}
+
+function bloqueCats(c, key){
+  return '<section class="cats">' + c.cats.map(function(cat){
+    return '<a class="cat" onclick="irA(\'' + key + '\')">' +
+      '<div class="cat-img" style="background-image:url(\'' + IMG + cat.img + '\')"></div>' +
+      '<div class="cat-label">' + cat.label + '</div>' +
+      '<div class="cat-desc">' + cat.desc + '<span>VER CATEGORÍA</span></div>' +
+    '</a>';
+  }).join('') + '</section>';
+}
+
+function bloqueMarcas(){
+  var marcas = ['STANLEY','DJI','XIAOMI','JBL','RAY-BAN'];
+  return '<section class="brands">' +
+    '<h3>Nuestras marcas</h3>' +
+    '<div class="brands-row">' +
+      marcas.map(function(m){ return '<span class="brand">' + m + '</span>'; })
+            .join('<span class="brand-dot">·</span>') +
+    '</div>' +
+  '</section>';
+}
+
+function tarjeta(p){
+  var off = descuento(p);
+  return '<article class="card">' +
+    '<div class="card-media' + (p.fill ? ' fill' : '') + '">' +
+      (off ? '<span class="tag-off">' + off + '</span>' : '') +
+      '<img src="' + IMG + p.img + '" alt="' + esc(p.nombre) + '" loading="lazy">' +
+    '</div>' +
+    '<div class="card-body">' +
+      '<div class="card-name">' + p.nombre + '</div>' +
+      '<div class="card-prices">' +
+        '<span class="price">' + precioARS(p.precio) + '</span>' +
+        (p.antes ? '<span class="price-old">' + precioARS(p.antes) + '</span>' : '') +
+      '</div>' +
+      '<span class="badge-cuotas">' + p.cuotas + ' sin interés</span>' +
+    '</div>' +
+  '</article>';
+}
+
+function bloqueProductos(c, key, filtro){
+  var pills = c.submenu.map(function(f){
+    return '<button class="pill' + (f === filtro ? ' active' : '') + '" onclick="irA(\'' + key + '\',\'' + esc(f) + '\')">' + f + '</button>';
+  }).join('');
+
+  var lista = c.productos.filter(function(p){ return p.filtros.indexOf(filtro) !== -1; });
+  var cards = lista.length
+    ? lista.map(tarjeta).join('')
+    : '<div class="empty">No hay productos en esta categoría por el momento.</div>';
+
+  return '<section class="products" id="productos">' +
+    '<div class="products-head">' +
+      '<h2>' + c.seccion.titulo + '</h2>' +
+      '<p>' + c.seccion.bajada + '</p>' +
+    '</div>' +
+    '<div class="filters">' + pills + '</div>' +
+    '<div class="grid">' + cards + '</div>' +
+  '</section>';
+}
+
+function bloqueFooter(){
+  return '<footer class="footer">' +
+    '<div class="footer-col">' +
+      '<div class="logo"><span class="go">go</span><span class="up">up</span></div>' +
+      '<p>Importados originales<br>Envíos a todo el país</p>' +
+    '</div>' +
+    '<div class="footer-col">' +
+      '<h4>Tienda</h4>' +
+      ORDEN.map(function(k){ return '<a onclick="irA(\'' + k + '\')">' + CATALOGO[k].nav + '</a>'; }).join('') +
+    '</div>' +
+    '<div class="footer-col">' +
+      '<h4>Ayuda</h4>' +
+      '<a onclick="irA(\'contacto\')">Cómo comprar</a>' +
+      '<a onclick="irA(\'contacto\')">Envíos y entregas</a>' +
+      '<a onclick="irA(\'contacto\')">Cambios y devoluciones</a>' +
+      '<a onclick="irA(\'contacto\')">Contacto</a>' +
+    '</div>' +
+    '<div class="footer-col">' +
+      '<h4>Seguinos</h4>' +
+      '<a href="#">Instagram</a><a href="#">WhatsApp</a><a href="#">TikTok</a>' +
+    '</div>' +
+  '</footer>';
+}
+
+function vistaContacto(){
+  return '<section class="contacto">' +
+    '<h1>Hablemos</h1>' +
+    '<p class="sub">Contanos qué estás buscando y te pasamos precio, stock y formas de pago. Si no lo tenemos, lo traemos a pedido.</p>' +
+    '<div class="contacto-grid">' +
+      '<div>' +
+        '<div class="info-block"><h4>WhatsApp</h4><p>+54 9 11 5555-0142<br>Lun a Vie 9 a 19 · Sáb 9 a 13</p></div>' +
+        '<div class="info-block"><h4>Showroom</h4><p>Av. Corrientes 1234, CABA<br>Con cita previa</p></div>' +
+        '<div class="info-block"><h4>Email</h4><a href="#">hola@goupimportados.com.ar</a></div>' +
+        '<div class="info-block"><h4>Envíos</h4><p>Andreani y Correo Argentino a todo el país.<br>CABA y GBA: entrega en 24/48 hs.</p></div>' +
+      '</div>' +
+      '<form class="form" onsubmit="enviarForm(event)">' +
+        '<div class="field"><label>Nombre</label><input type="text" required placeholder="Tu nombre"></div>' +
+        '<div class="field"><label>WhatsApp o email</label><input type="text" required placeholder="Cómo te contactamos"></div>' +
+        '<div class="field"><label>¿Qué te interesa?</label><select>' +
+          ORDEN.map(function(k){ return '<option>' + CATALOGO[k].nav + '</option>'; }).join('') +
+          '<option>Otro producto</option>' +
+        '</select></div>' +
+        '<div class="field"><label>Mensaje</label><textarea placeholder="Contanos qué estás buscando"></textarea></div>' +
+        '<button class="btn-form" type="submit">ENVIAR CONSULTA</button>' +
+        '<div class="form-ok" id="formOk">¡Listo! Es una demo, así que el mensaje no se envía a ningún lado. En la tienda real te responderíamos por WhatsApp en el día.</div>' +
+      '</form>' +
+    '</div>' +
+  '</section>';
+}
+
+/* ==========================================================
+   ROUTER
+   ========================================================== */
+function irA(vista, filtro){
+  location.hash = '#/' + vista + (filtro ? '/' + encodeURIComponent(filtro) : '');
+}
+
+function render(){
+  var partes = location.hash.replace(/^#\//,'').split('/');
+  var vista  = partes[0] || 'inicio';
+  var filtro = partes[1] ? decodeURIComponent(partes[1]) : null;
+
+  var main = document.getElementById('main');
+
+  if(vista === 'contacto'){
+    main.innerHTML = vistaContacto() + bloqueFooter();
+    renderNav('contacto');
+    window.scrollTo(0,0);
+    return;
+  }
+
+  // "inicio" muestra la portada Stanley, pero deja Inicio marcado en el menú
+  var key = (vista === 'inicio') ? 'stanley' : vista;
+  var c = CATALOGO[key];
+
+  if(!c){ location.hash = '#/inicio'; return; }
+
+  if(!filtro || c.submenu.indexOf(filtro) === -1) filtro = c.submenu[0];
+
+  main.innerHTML = bloqueHero(c, key) +
+                   bloqueCats(c, key) +
+                   bloqueMarcas() +
+                   bloqueProductos(c, key, filtro) +
+                   bloqueFooter();
+
+  renderNav(vista === 'inicio' ? 'inicio' : key);
+
+  // Al cambiar sólo el filtro dentro de la misma vista, no saltamos arriba
+  if(vistaAnterior !== vista){ window.scrollTo(0,0); }
+  else if(filtroAnterior !== filtro){ scrollAProductos(); }
+
+  vistaAnterior = vista;
+  filtroAnterior = filtro;
+}
+
+var vistaAnterior = null;
+var filtroAnterior = null;
+
+function scrollAProductos(){
+  var el = document.getElementById('productos');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function enviarForm(e){
+  e.preventDefault();
+  document.getElementById('formOk').classList.add('show');
+  e.target.querySelector('input').focus();
+}
+
+window.addEventListener('hashchange', render);
+render();
+</script>
+
+</body>
+</html>
