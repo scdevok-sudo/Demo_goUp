@@ -607,6 +607,39 @@ button{font-family:inherit;border:none;cursor:pointer}
 .whatsapp:hover{transform:scale(1.07)}
 .whatsapp svg{width:29px;height:29px;fill:#fff}
 
+/* ============ MOBILE HEADER + DRAWER ============ */
+.mobile-header{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;
+  height:56px;
+  z-index:150;
+  background:#111111;
+  border-bottom:1px solid #2b2b2b;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+}
+.mobile-header .logo{font-size:22px;padding:0;margin-bottom:0}
+
+.hamburger-btn{
+  background:transparent;
+  width:34px;height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.hamburger-btn svg{width:22px;height:22px}
+
+.drawer-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:190;
+}
+.drawer-overlay.show{display:block}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:1100px){
   .grid,.cats{grid-template-columns:repeat(2,1fr)}
@@ -616,22 +649,62 @@ button{font-family:inherit;border:none;cursor:pointer}
   .contacto-grid{grid-template-columns:1fr;gap:40px}
 }
 @media (max-width:720px){
-  :root{--sidebar-w:78px}
-  .logo{font-size:21px;padding:0 12px}
-  .nav{padding:0 12px}
-  .nav-link{font-size:10.5px}
+  .mobile-header{display:flex}
+
+  .sidebar{
+    width:280px;
+    transform:translateX(-100%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    z-index:200;
+  }
+  .sidebar.open{transform:translateX(0)}
+
+  .main{margin-left:0;padding-top:56px}
+
   .grid,.cats{grid-template-columns:1fr}
-  .hero{height:auto;min-height:0;padding:110px 0 0}
-  .hero h1{font-size:34px}
-  .hero-inner,.products,.brands,.footer,.contacto{padding-left:22px;padding-right:22px}
-  .hero-inner{padding-bottom:150px}
-  .hero-product{padding:16px 22px;right:0}
+
+  .hero{height:auto;min-height:480px;padding-top:60px}
+  .hero h1{font-size:32px}
+  .hero-inner{padding:0 20px 160px}
+  .products,.brands,.footer,.contacto{padding-left:20px;padding-right:20px}
+  .hero-bg::after{background:linear-gradient(180deg,rgba(10,10,10,.5) 0%,rgba(10,10,10,.88) 100%)}
+  .hero-product{padding:16px 20px;left:0;right:0;width:100%}
+  .hero-product .hp-name{font-size:11px}
+  .hero-product .hp-meta{font-size:10px}
+
   .products h2{font-size:27px}
   .contacto h1{font-size:34px}
-  .cat{height:290px}
-  .card-media{height:250px;padding:26px}
+  .cat{height:220px}
+  .card-media{height:200px;padding:26px}
   .products{padding-top:54px;padding-bottom:62px}
   .contacto{padding-top:80px}
+
+  .products-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .products-head p{display:none}
+
+  .filters{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:6px;
+    margin-left:-20px;
+    margin-right:-20px;
+    padding-left:20px;
+    padding-right:20px;
+  }
+  .filters::-webkit-scrollbar{display:none}
+
+  .footer{flex-direction:column;gap:24px;padding:32px 20px}
+  .footer-col:nth-child(2),.footer-col:nth-child(3){display:none}
+
+  .demo-badge{top:68px;left:50%;right:auto;transform:translateX(-50%)}
+}
+@media (max-width:400px){
+  .hero h1{font-size:28px}
+  .products h2{font-size:24px}
+  .contacto h1{font-size:28px}
+  .cat{height:200px}
+  .card-media{height:180px;padding:20px}
 }
 </style>
 </head>
@@ -639,8 +712,22 @@ button{font-family:inherit;border:none;cursor:pointer}
 
 <div class="demo-badge">DEMO · Balance</div>
 
-<!-- ============ SIDEBAR ============ -->
-<aside class="sidebar">
+<!-- ============ MOBILE HEADER ============ -->
+<header class="mobile-header">
+  <div class="logo" onclick="irA('stanley')" style="cursor:pointer"><span class="go">go</span><span class="up">up</span></div>
+  <button class="hamburger-btn" onclick="toggleDrawer()" aria-label="Abrir menú">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</header>
+
+<div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer(false)"></div>
+
+<!-- ============ SIDEBAR / DRAWER ============ -->
+<aside class="sidebar" id="drawer">
   <div class="logo" onclick="irA('stanley')" style="cursor:pointer"><span class="go">go</span><span class="up">up</span></div>
   <nav class="nav" id="nav"></nav>
   <div class="sidebar-foot">
@@ -844,6 +931,18 @@ function renderNav(activa){
 }
 
 /* ==========================================================
+   DRAWER (mobile)
+   ========================================================== */
+function toggleDrawer(force){
+  var drawer = document.getElementById('drawer');
+  var overlay = document.getElementById('drawer-overlay');
+  var open = force !== undefined ? force : !drawer.classList.contains('open');
+  drawer.classList.toggle('open', open);
+  overlay.classList.toggle('show', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+
+/* ==========================================================
    BLOQUES DE PÁGINA
    ========================================================== */
 function bloqueHero(c, key){
@@ -976,6 +1075,7 @@ function vistaContacto(){
    ROUTER
    ========================================================== */
 function irA(vista, filtro){
+  toggleDrawer(false);
   location.hash = '#/' + vista + (filtro ? '/' + encodeURIComponent(filtro) : '');
 }
 
